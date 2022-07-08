@@ -1,2 +1,7 @@
 ipykernel
 pyyaml
+seaborn
+pandas
+requests
+fastdtw
+dtaidistance
