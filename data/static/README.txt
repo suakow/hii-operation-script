@@ -1,0 +1,1 @@
+For insert static data
