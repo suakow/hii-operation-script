@@ -41,8 +41,6 @@ import datetime
 import functools
 import os
 import pickle
-import argparse
-import json
 
 from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
