@@ -140,7 +140,7 @@ if __name__ == '__main__' :
     print('end_year', args.end_year)
     
     print('Loading Rainfall data')
-    rain_df = pd.read_csv(Path(f'{project_path}data/static') / 'TMD_idw_annual_rainfall_2019.csv')
+    rain_df = pd.read_csv(Path(f'{project_path}data/static') / config['annual_rainfall_file'])
     rain_df['sRain'] = rain_df['annual_rainfall']
     climRain = rain_df[ (rain_df['year']>= 1981)&(rain_df['year']<= 2010) ]
     
