@@ -54,3 +54,8 @@ s_selected_columns = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'S
 
 time_now = datetime.datetime.now()
 date_path = time_now.isoformat().split('T')[0]
+
+"""
+Preprocess *.tiff to CSV
+https://colab.research.google.com/drive/1YbYX-qd-EyK0YKQtgzEbaoJPLW6-sKIB
+"""

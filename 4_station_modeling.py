@@ -66,7 +66,6 @@ date_path = time_now.isoformat().split('T')[0]
 """
 * Station Prediction Model
 """
-
 def build_model() :
     model = tf.keras.models.Sequential()
     model.add(tf.keras.layers.Input(shape=(12, 6)))
