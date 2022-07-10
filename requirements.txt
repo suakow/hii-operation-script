@@ -6,3 +6,4 @@ requests
 fastdtw
 dtaidistance
 tensorflow
+sciket-learn
