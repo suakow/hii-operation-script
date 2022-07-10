@@ -5,3 +5,4 @@ pandas
 requests
 fastdtw
 dtaidistance
+tensorflow
