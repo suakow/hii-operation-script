@@ -189,6 +189,11 @@ if __name__ == '__main__' :
     s_rain = rain_df['year']
     
     print('Loading indices data')
+
+    if latest_indices_update == '' or latest_indices_update == None :
+        print('There are no indices data')
+        exit()
+
     oni = pd.read_csv(Path(f'{project_path}data') / latest_indices_update / 'oni_df.csv')
     iod = pd.read_csv(Path(f'{project_path}data') / latest_indices_update / 'dmi_df.csv')
     pdo = pd.read_csv(Path(f'{project_path}data') / latest_indices_update / 'pdo_df.csv')
