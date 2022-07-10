@@ -37,17 +37,12 @@ sns.set(rc={'figure.dpi': 230})
 import yaml
 from yaml.loader import SafeLoader
 
-import functools
-import requests
-import re
-import io
 from pathlib import Path
 import datetime
 import os
 import argparse
 import json
 
-import scipy
 import scipy.spatial.distance as ssd
 import scipy.cluster.hierarchy as shc
 
