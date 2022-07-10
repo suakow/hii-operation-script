@@ -55,7 +55,7 @@ from dtaidistance import dtw
 from dtaidistance import dtw_ndim
 
 config = yaml.load(
-    open('/home/studio-lab-user/sagemaker-studiolab-notebooks/workspace/hii_operation/config.yml', 'r').read(),
+    open('config.yml', 'r').read(),
     Loader=SafeLoader
 )
 

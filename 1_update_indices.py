@@ -44,7 +44,7 @@ import datetime
 import os
 
 config = yaml.load(
-    open('/home/studio-lab-user/sagemaker-studiolab-notebooks/workspace/hii_operation/config.yml', 'r').read(),
+    open('config.yml', 'r').read(),
     Loader=SafeLoader
 )
 
