@@ -1,0 +1,1 @@
+Use for store rainfall map from TMD, HII and groundtruth
