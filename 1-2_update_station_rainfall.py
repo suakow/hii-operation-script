@@ -69,7 +69,20 @@ https://colab.research.google.com/drive/1YbYX-qd-EyK0YKQtgzEbaoJPLW6-sKIB
 """
 
 if __name__ == '__main__' :
-    gdf = gpd.read_file( Path(project_path) / 'data' / 'shape_file' / 'MainBasin_ONWR_WGS84_4K_3A_With_Island/MainBasin_ONWR_WGS84.shp')
+
+    """
+    * Load Basin Shape files
+    """
+    print('Load basin shape files...')
+    gdf = gpd.read_file(Path(project_path) / 'data' / 'shape_file' / 'MainBasin_ONWR_WGS84_4K_3A_With_Island/MainBasin_ONWR_WGS84.shp')
     gdf["area"] = gdf.area
 
-    print(gdf)
+    """
+    * Load Station Location
+    """
+    print('Load station locations...')
+    station_location_df = pd.read_excel(Path(project_path) / 'data' / 'static' / 'TMD-station-meta2021.xlsx')
+    station_location_df = station_location_df[['code_tmd', 'name_tmd_en', 'main_basin', 'new_lat', 'new_long']]
+    station_location_df['name_tmd_en'] = station_location_df['name_tmd_en'].apply(lambda _: _.replace('\t', ''))
+
+    print(station_location_df)
