@@ -45,6 +45,11 @@ import os
 
 import geopandas as gpd
 
+from tqdm.auto import tqdm
+
+import rioxarray
+import xarray as xr
+
 config = yaml.load(
     open('config.yml', 'r').read(),
     Loader=SafeLoader
