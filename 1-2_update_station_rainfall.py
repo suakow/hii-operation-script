@@ -142,7 +142,18 @@ if __name__ == '__main__' :
     * End for Loop
     """
     station_value_df = pd.DataFrame(station_value_list, columns=['datetime', 'year', 'month'] + list(station_location_df['name_tmd_en'].values))
-    station_value_df.to_csv(Path(project_path) / 'data' / 'static' / config['station_rainfall_file'])
+    
+    """
+    * Filter out stations with no rainfall
+    """
+    column_zero = []
+    station_value_describe_df = station_value_df.describe()
+    for _ in list(station_value_describe_df.loc['max'].index)[3 :] :
+        if station_value_describe_df.loc['max', _] == 0.0 :
+            column_zero.append(_)
+
+    station_value_df = station_value_df.drop(columns=column_zero)
+    station_value_df.to_csv(Path(project_path) / 'data' / 'static' / config['station_rainfall_file'], index=False)
 
     config['station_value_last_update'] = date_path
     print(config)
