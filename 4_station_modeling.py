@@ -39,14 +39,7 @@ from yaml.loader import SafeLoader
 from pathlib import Path
 import datetime
 import os
-import argparse
 import json
-
-import scipy.spatial.distance as ssd
-import scipy.cluster.hierarchy as shc
-
-from dtaidistance import dtw
-from dtaidistance import dtw_ndim
 
 import tensorflow as tf
 
@@ -132,7 +125,7 @@ if __name__ == '__main__' :
        'DECp']
 
     basin_result = []
-    validate_to = -10
+    validate_to = -7
 
     for basin in [ _ for _ in station_all_df.columns if _ not in ['Unnamed: 0', 'datetime', 'year', 'month'] ][:1] :
         if not Path(f'{project_path}output/{date_path}/station_model/{basin}').exists() :
@@ -152,19 +145,20 @@ if __name__ == '__main__' :
         basin_model_df_s = basin_df_piv.join(s_df[['f_thyear', 'label_th']].set_index('f_thyear'), on='th_year', how='inner')
         basin_model_df_s = basin_model_df_s.fillna(0)
         print('basin = ',basin)
-        # print(basin_model_df_s.info())
-        X_allrainfall = s_df[s_selected_columns]
-        y_basinrainfall = basin_model_df_s[s_selected_columns]
-
-        # print(s_df.shape, basin_model_df_s.shape)
+        # print(basin_model_df_s.info()
+        # y_basinrainfall = basin_model_df_s[s_selected_columns]
 
         ts_df = s_df.copy()
         ts_df['f_thyear_pair'] = ts_df['f_thyear'].apply(lambda _: group_result_filtered[_])
         ts_df = ts_df.join(basin_model_df_s.set_index('th_year'), 'f_thyear_pair', rsuffix='p')
+        ts_df = ts_df.dropna()
         ts_df.to_pickle(station_result_path / 'ts_df.bin')
+
+        y_basinrainfall = basin_model_df_s.join(ts_df[['f_thyear', 'annual_rainfall']].set_index('f_thyear'), on='th_year', rsuffix='x').dropna()[s_selected_columns]
         # ts_df.to_pickle(f'{param_project_path}%s_station_%s_tsdf.bin'%(param_training_name, basin))
 
         X_station_pair = ts_df[b_selected_columns]
+        X_allrainfall = ts_df[s_selected_columns]
 
         train_year = s_df['f_thyear'].iloc[:validate_to]
         validate_year = s_df['f_thyear'].iloc[validate_to:]
@@ -181,16 +175,16 @@ if __name__ == '__main__' :
         X_station_pair_i_train = station_pair_scaler.fit_transform(X_station_pair_train)
         X_station_pair_i_validate = station_pair_scaler.transform(X_station_pair_validate)
 
-        iod_u_df = s_df[['iod_l01', 'iod_l02', 'iod_l03', 'iod_l04', 'iod_l05',
+        iod_u_df = ts_df[['iod_l01', 'iod_l02', 'iod_l03', 'iod_l04', 'iod_l05',
         'iod_l06', 'iod_l07', 'iod_l08', 'iod_l09', 'iod_l10', 'iod_l11',
         'iod_l12']]
-        pdo_u_df = s_df[['pdo_l01', 'pdo_l02', 'pdo_l03', 'pdo_l04', 'pdo_l05',
+        pdo_u_df = ts_df[['pdo_l01', 'pdo_l02', 'pdo_l03', 'pdo_l04', 'pdo_l05',
         'pdo_l06', 'pdo_l07', 'pdo_l08', 'pdo_l09', 'pdo_l10', 'pdo_l11',
         'pdo_l12']]
-        oni_u_df = s_df[['oni_l01', 'oni_l02', 'oni_l03', 'oni_l04', 'oni_l05',
+        oni_u_df = ts_df[['oni_l01', 'oni_l02', 'oni_l03', 'oni_l04', 'oni_l05',
         'oni_l06', 'oni_l07', 'oni_l08', 'oni_l09', 'oni_l10', 'oni_l11',
         'oni_l12']]
-        emi_u_df = s_df[['emi_l01', 'emi_l02', 'emi_l03', 'emi_l04', 'emi_l05',
+        emi_u_df = ts_df[['emi_l01', 'emi_l02', 'emi_l03', 'emi_l04', 'emi_l05',
         'emi_l06', 'emi_l07', 'emi_l08', 'emi_l09', 'emi_l10', 'emi_l11',
         'emi_l12']]
 
@@ -228,18 +222,20 @@ if __name__ == '__main__' :
         model = build_model()
         model.compile(loss=tf.keras.losses.MeanSquaredError(), 
                 optimizer=tf.keras.optimizers.Adam(learning_rate=5e-4))
+
+        print(X_train.shape, y_basinrainfall_i_train.reshape(-1, 12, 1).shape)
+
         history = model.fit(
-            X_train, y_basinrainfall_i_train.reshape(-1, 12, 1),
+            X_train, y_basinrainfall_i_train.reshape(-1, 12),
             epochs=500,
             batch_size=8,
-            validation_data=(X_validate, y_basinrainfall_i_validate.reshape(-1, 12, 1)),
+            validation_data=(X_validate, y_basinrainfall_i_validate.reshape(-1, 12)),
             callbacks=[
                 tf.keras.callbacks.ModelCheckpoint(station_result_path / 'station_model.bin', monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=True),
                 tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', patience=10, factor=0.5),
                 tf.keras.callbacks.EarlyStopping(monitor = 'val_loss', patience = 60),
                 # WandbCallback()
             ],
-            verbose=0,
         )
         plt.plot(history.history['loss'], label='train')
         plt.plot(history.history['val_loss'], label='val')
