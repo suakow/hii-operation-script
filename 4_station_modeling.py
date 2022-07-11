@@ -95,7 +95,7 @@ if __name__ == '__main__' :
     """
     * Load Station Data
     """
-    station_all_df = pd.read_csv(f'{project_path}/data/static/tmd_station.csv')
+    station_all_df = pd.read_csv(f'{project_path}/data/static/' + config['station_rainfall_file'])
     
     """
     * Load SimIDX Plus data
