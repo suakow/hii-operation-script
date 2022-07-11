@@ -43,6 +43,8 @@ from pathlib import Path
 import datetime
 import os
 
+import geopandas as gpd
+
 config = yaml.load(
     open('config.yml', 'r').read(),
     Loader=SafeLoader
@@ -59,3 +61,6 @@ date_path = time_now.isoformat().split('T')[0]
 Preprocess *.tiff to CSV
 https://colab.research.google.com/drive/1YbYX-qd-EyK0YKQtgzEbaoJPLW6-sKIB
 """
+
+if __name__ == '__main__' :
+    gdf = gpd.read_file('/content/onedrive/workspace/HII/opendata/shape_file/MainBasin_ONWR_WGS84_4K_3A_With_Island/MainBasin_ONWR_WGS84.shp')

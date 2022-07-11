@@ -3,3 +3,5 @@
 .ipynb_checkpoints
 data/*-*-*
 output/*-*-*
+data/shape_file/*
+data/rainfall_map/*

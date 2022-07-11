@@ -20,3 +20,4 @@ netCDF4
 openpyxl
 shapely
 wradlib==1.15.0
+tqdm
