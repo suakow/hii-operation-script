@@ -52,6 +52,12 @@ config = yaml.load(
 
 print(config)
 
+project_path = config['project_path']
+latest_indices_update = config['last_update']
+
+time_now = datetime.datetime.now()
+date_path = time_now.isoformat().split('T')[0]
+
 s_selected_columns = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV','DEC']
 
 time_now = datetime.datetime.now()
@@ -63,4 +69,7 @@ https://colab.research.google.com/drive/1YbYX-qd-EyK0YKQtgzEbaoJPLW6-sKIB
 """
 
 if __name__ == '__main__' :
-    gdf = gpd.read_file('/content/onedrive/workspace/HII/opendata/shape_file/MainBasin_ONWR_WGS84_4K_3A_With_Island/MainBasin_ONWR_WGS84.shp')
+    gdf = gpd.read_file( Path(project_path) / 'data' / 'shape_file' / 'MainBasin_ONWR_WGS84_4K_3A_With_Island/MainBasin_ONWR_WGS84.shp')
+    gdf["area"] = gdf.area
+
+    print(gdf)
