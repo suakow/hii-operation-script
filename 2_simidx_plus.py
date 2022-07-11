@@ -190,7 +190,7 @@ if __name__ == '__main__' :
     
     print('Loading indices data')
 
-    if latest_indices_update == '' or latest_indices_update == None :
+    if latest_indices_update == '' or latest_indices_update == None or 'last_update' not in config :
         print('There are no indices data')
         exit()
 
@@ -495,7 +495,7 @@ if __name__ == '__main__' :
         # print(group_mem_s)
         for _ in group_mem_s :
             # print(_)
-            group_result[_['year'].tolist()] = [ xx.tolist() for xx in _['year_pair']]
+            group_result[int(_['year'].tolist())] = [ xx.tolist() for xx in _['year_pair']]
             group_result_long[_['year']] = _
     
     # print(group_result)
@@ -527,7 +527,8 @@ if __name__ == '__main__' :
     open(Path(f'{project_path}output/{date_path}/simidx_plus/result.json'), 'w').write(json.dumps(group_result))
     open(Path(f'{project_path}output/{date_path}/simidx_plus/result_filter.json'), 'w').write(json.dumps(group_result_filtered))
     open(Path(f'{project_path}output/{date_path}/simidx_plus/config.json'), 'w').write(json.dumps(config))
-    
+    s_df.to_csv(Path(f'{project_path}output/{date_path}/simidx_plus/s_df.csv'), index=False)
+
     config['simidx_last_update'] = date_path
     print(config)
     open('%sconfig.yml'%(config['project_path']), 'w').write(yaml.dump(config))
