@@ -7,7 +7,9 @@ fastdtw
 dtaidistance
 tensorflow
 scikit-learn
-geopandas
+# Geopandas should install via conda
+# $ conda install geopandas
+# geopandas
 rasterio
 xarray==0.19.0
 rioxarray
