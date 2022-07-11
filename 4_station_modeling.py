@@ -248,3 +248,6 @@ if __name__ == '__main__' :
     """
     * End Modeling
     """
+    config['station_model_last_update'] = date_path
+    print(config)
+    open('%sconfig.yml'%(config['project_path']), 'w').write(yaml.dump(config))
