@@ -7,3 +7,12 @@ fastdtw
 dtaidistance
 tensorflow
 sciket-learn
+geopandas
+rasterio
+xarray==0.19.0
+rioxarray
+netCDF4
+Cartopy
+openpyxl
+shapely
+wradlib==1.15.0
