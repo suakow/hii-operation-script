@@ -6,7 +6,7 @@ requests
 fastdtw
 dtaidistance
 tensorflow
-sciket-learn
+scikit-learn
 geopandas
 rasterio
 xarray==0.19.0
