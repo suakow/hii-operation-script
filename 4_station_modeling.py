@@ -242,6 +242,7 @@ if __name__ == '__main__' :
         plt.legend()
         plt.title('last loss: ' + str(model.history.history['loss'][-1]))
         plt.savefig(station_result_path / 'station_model_loss.png', format='png')
+        plt.clf()
 
         print('----------')
 
