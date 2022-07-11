@@ -127,7 +127,7 @@ if __name__ == '__main__' :
     basin_result = []
     validate_to = -7
 
-    for basin in [ _ for _ in station_all_df.columns if _ not in ['Unnamed: 0', 'datetime', 'year', 'month'] ][:1] :
+    for basin in [ _ for _ in station_all_df.columns if _ not in ['Unnamed: 0', 'datetime', 'year', 'month'] ] :
         if not Path(f'{project_path}output/{date_path}/station_model/{basin}').exists() :
             os.mkdir(Path(f'{project_path}output/{date_path}/station_model/{basin}'))
 
