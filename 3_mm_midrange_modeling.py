@@ -294,6 +294,8 @@ if __name__ == '__main__' :
         os.mkdir(result_model_path)
 
     pickle.dump(y_scaler, open(result_model_path / 'scaler.bin', 'wb'))
+    ocean_indices_df.to_pickle(result_model_path / 'oceanic_indices_df.bin')
+    mjo_monsoon_df.to_pickle(result_model_path / 'mjo_monsoon_df.bin')
 
     """
     * Modeling 
