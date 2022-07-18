@@ -1,0 +1,10 @@
+annual_rainfall_file: TMD_idw_annual_rainfall_2019.csv
+last_prediction: 
+last_update: 
+mm_model_last_update: 
+project_path: /home/ubuntu/workspace/hii-operation-script/
+simidx_last_update: 
+station_location_file: TMD-station-meta2021.xlsx
+station_model_last_update: 
+station_rainfall_file: tmd_station.csv
+station_value_last_update: 
